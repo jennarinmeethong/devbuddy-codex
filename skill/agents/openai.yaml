@@ -1,0 +1,4 @@
+interface:
+  display_name: "DevBuddy"
+  short_description: "Senior engineering workflow for Codex"
+  default_prompt: "Use $devbuddy to analyze this coding task, produce a Codex Plan Mode plan, and hold code changes until implementation is requested."
