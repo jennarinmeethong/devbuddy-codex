@@ -12,6 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skill"
 SKILL_MD = SKILL / "SKILL.md"
 OPENAI_YAML = SKILL / "agents" / "openai.yaml"
+SCAFFOLD_SCRIPT = SKILL / "scripts" / "devbuddy_scaffold.py"
+INSTALL_SCRIPT = ROOT / "scripts" / "install-local.sh"
+PACKAGE_SCRIPT = ROOT / "scripts" / "package-skill.sh"
 MEMORY_FILES = {
     "Context.md",
     "BusinessContext.md",
@@ -51,6 +54,12 @@ def main() -> int:
         fail("skill/SKILL.md is missing")
     if not OPENAI_YAML.exists():
         fail("skill/agents/openai.yaml is missing")
+    if not SCAFFOLD_SCRIPT.exists():
+        fail("skill/scripts/devbuddy_scaffold.py is missing")
+    if not INSTALL_SCRIPT.exists():
+        fail("scripts/install-local.sh is missing")
+    if not PACKAGE_SCRIPT.exists():
+        fail("scripts/package-skill.sh is missing")
 
     skill_text = SKILL_MD.read_text(encoding="utf-8")
     frontmatter = parse_frontmatter(skill_text)
@@ -72,6 +81,7 @@ def main() -> int:
         "Do not edit repo-tracked files",
         "agents/shared/orchestration.md",
         "references/reusable-tools.md",
+        "scripts/devbuddy_scaffold.py",
         "workflows/loop-workflow.md",
     ]
     missing = [needle for needle in required_skill_text if needle not in skill_text]
@@ -91,6 +101,22 @@ def main() -> int:
     forbidden = [path.name for path in SKILL.iterdir() if path.name in MEMORY_FILES]
     if forbidden:
         fail(f"Runtime memory files must not be committed in skill/: {forbidden}")
+
+    scaffold_text = SCAFFOLD_SCRIPT.read_text(encoding="utf-8")
+    required_scaffold_text = [
+        "docs/adr",
+        "reports/analysis",
+        "reports/implementations",
+        "reports/lessons-learned",
+        "reports/plans",
+        "reports/qa",
+        "reports/reviews",
+        "Reusable Tools",
+        "obsidian_vault",
+    ]
+    missing_scaffold = [needle for needle in required_scaffold_text if needle not in scaffold_text]
+    if missing_scaffold:
+        fail(f"devbuddy_scaffold.py is missing expected setup features: {missing_scaffold}")
 
     claude_refs = []
     for path in SKILL.rglob("*"):

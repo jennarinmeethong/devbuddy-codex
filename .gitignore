@@ -1,5 +1,6 @@
 .DS_Store
 *.zip
+dist/
 .devbuddy/
 /Context.md
 /BusinessContext.md

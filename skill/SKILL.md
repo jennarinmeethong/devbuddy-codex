@@ -135,6 +135,12 @@ When a task is the kind of work that will recur, capture it as a small, paramete
 
 Read `references/reusable-tools.md` for the full convention.
 
+## Bundled Scripts
+
+Use bundled scripts only when they reduce repeated setup or improve deterministic reliability:
+
+- `scripts/devbuddy_scaffold.py`: initialize the resolved memory root with `Context.md`, `BusinessContext.md`, `DecisionLog.md`, `KnowledgeBase.md`, `docs/adr/`, `reports/`, and `tools/README.md`. Run it when project memory is missing, when the user asks to set up DevBuddy in a project, or before creating reusable project-local tools. Example: `python3 <skill>/scripts/devbuddy_scaffold.py --project-root <repo-root>`.
+
 ## Required Planning Output
 
 Before implementation, include:
@@ -157,6 +163,8 @@ Look for a `devbuddy.config.md` file at the project root first, then next to thi
 3. otherwise → use `.devbuddy/` at the project root. Resolve the project root as the current Codex workspace root, the nearest Git root, or the current working directory if no clearer root exists.
 
 `obsidian_vault` takes precedence over `memory_root`. Create the resolved directory if it does not exist. See `templates/devbuddy-config-template.md` for the config format.
+
+When the memory root does not exist or is missing the standard memory/report/tool structure, initialize it with `scripts/devbuddy_scaffold.py` instead of manually creating each file and folder.
 
 ### Obsidian mode
 
@@ -200,6 +208,7 @@ Read only the relevant files when deeper guidance is needed:
 - `capabilities/understand-dotnet-project.md`
 - `references/tech-stack-routing.md`
 - `references/reusable-tools.md`
+- `scripts/devbuddy_scaffold.py`
 - `workflows/analyze-workflow.md`
 - `workflows/planning-workflow.md`
 - `workflows/implementation-workflow.md`

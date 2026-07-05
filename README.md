@@ -6,14 +6,33 @@ The installable skill lives in `skill/`. Repository-level files such as this REA
 
 ## Install Locally
 
-Install or refresh the skill by copying `skill/` to your Codex skills directory:
+Install or refresh the skill with the helper script:
 
 ```bash
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills/devbuddy"
-rsync -a --delete --exclude '.DS_Store' skill/ "${CODEX_HOME:-$HOME/.codex}/skills/devbuddy/"
+./scripts/install-local.sh
 ```
 
 Start a fresh Codex thread after installing so `$devbuddy` appears in the available skills list.
+
+## Package
+
+Create a distributable skill zip:
+
+```bash
+./scripts/package-skill.sh
+```
+
+The archive is written to `dist/devbuddy-codex-skill.zip` and contains a top-level `devbuddy/` skill folder.
+
+## Initialize Project Memory
+
+DevBuddy keeps project memory, ADRs, reports, and reusable tools outside this repository. To scaffold those runtime files in a target project:
+
+```bash
+python3 skill/scripts/devbuddy_scaffold.py --project-root /path/to/project
+```
+
+The script respects `devbuddy.config.md` when present, supports Obsidian vault mode, and otherwise creates `.devbuddy/` under the target project.
 
 ## Validate
 
@@ -33,5 +52,6 @@ It validates the required `SKILL.md` frontmatter, skill name, description, Codex
 - `skill/workflows/`: analysis, planning, implementation, review, debugging, learning, and loop engineering workflows.
 - `skill/references/`: stack routing, reusable tool conventions, and optional specialized skill routing.
 - `skill/capabilities/`, `skill/principles/`, and `skill/templates/`: progressive references loaded only when useful.
+- `skill/scripts/devbuddy_scaffold.py`: deterministic setup for project memory, ADRs, reports, and reusable-tool indexes.
 
 Runtime project memory is intentionally not committed here. DevBuddy writes project memory to the location resolved by `devbuddy.config.md` or, by default, `.devbuddy/` in the target project.
