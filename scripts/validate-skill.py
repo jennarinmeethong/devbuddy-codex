@@ -79,6 +79,9 @@ def main() -> int:
         "## Codex Plan Mode",
         "<proposed_plan>",
         "Do not edit repo-tracked files",
+        "## GPT-5.6-Aware Execution",
+        "references/gpt-5.6.md",
+        "lowest sufficient model tier and effort",
         "agents/shared/orchestration.md",
         "references/reusable-tools.md",
         "scripts/devbuddy_scaffold.py",
@@ -87,6 +90,22 @@ def main() -> int:
     missing = [needle for needle in required_skill_text if needle not in skill_text]
     if missing:
         fail(f"SKILL.md is missing expected Codex guidance: {missing}")
+
+    gpt_56_reference = SKILL / "references" / "gpt-5.6.md"
+    if not gpt_56_reference.exists():
+        fail("skill/references/gpt-5.6.md is missing")
+    gpt_56_text = gpt_56_reference.read_text(encoding="utf-8")
+    required_gpt_56_text = [
+        "Sol",
+        "Terra",
+        "Luna",
+        "Programmatic Tool Calling",
+        "Delegated model selection",
+        "https://openai.com/index/gpt-5-6/",
+    ]
+    missing_gpt_56 = [needle for needle in required_gpt_56_text if needle not in gpt_56_text]
+    if missing_gpt_56:
+        fail(f"gpt-5.6.md is missing expected guidance: {missing_gpt_56}")
 
     openai_text = OPENAI_YAML.read_text(encoding="utf-8")
     required_openai_text = [

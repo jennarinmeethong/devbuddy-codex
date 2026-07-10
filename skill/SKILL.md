@@ -115,6 +115,19 @@ Treat this installed skill as a Codex-local copy of the shared DevBuddy workflow
 - For durable upstream changes, update the source DevBuddy repository first, then reinstall this Codex-local copy.
 - Keep `agents/openai.yaml` aligned with `SKILL.md` so the Codex UI and invocation metadata stay accurate.
 
+## GPT-5.6-Aware Execution
+
+When the user explicitly requests GPT-5.6, Sol, Terra, Luna, `max`, `ultra`, multi-agent work, or Programmatic Tool Calling, read `references/gpt-5.6.md` before selecting an approach.
+
+- Treat GPT-5.6 as a model family: Sol is the flagship tier, Terra is the balanced tier, and Luna is the fast, cost-efficient tier.
+- Select a model tier or effort level only when the user asks for it or the active surface exposes that choice. Do not promise availability, pricing, token limits, or an `ultra` setting without checking current official documentation and the active environment.
+- Keep the established DevBuddy sequence. More reasoning effort or multiple agents do not replace understanding, planning, narrow implementation, verification, and review.
+- Reserve `max` or `ultra` for work whose extra cost is justified by uncertainty, breadth, or verification needs. Prefer the normal effort level for routine, bounded changes.
+- Use parallel work only for separable streams with a clear synthesis step. Keep shared mutations and final integration with one accountable agent.
+- When delegating, let the orchestrator set the task boundary, risk tolerance, budget, and available-model envelope; then allow each subagent to choose the lowest sufficient model tier and effort within that envelope. Require it to report its choice and rationale with its findings.
+- Treat Programmatic Tool Calling and API multi-agent features as API-specific capabilities. Do not prescribe or emulate them in ChatGPT or Codex unless they are available and appropriate for the user's surface.
+- Follow safety controls and trusted-access requirements for high-risk cybersecurity or biological work. Do not attempt to bypass model, account, or workspace safeguards.
+
 ## Decision Heuristics
 
 Prefer this order before adding new code:
@@ -208,6 +221,7 @@ Read only the relevant files when deeper guidance is needed:
 - `capabilities/understand-dotnet-project.md`
 - `references/tech-stack-routing.md`
 - `references/reusable-tools.md`
+- `references/gpt-5.6.md`
 - `scripts/devbuddy_scaffold.py`
 - `workflows/analyze-workflow.md`
 - `workflows/planning-workflow.md`

@@ -9,6 +9,7 @@ Keep DevBuddy's main agent responsible for business understanding, planning, app
 - Read the user request and DevBuddy entrypoint before planning; load memory, ADRs, source, and tests only when they materially affect the task.
 - Decide whether the work is small enough to handle directly or large enough to route through a focused role.
 - Provide subagents only the goal, relevant paths or areas, constraints, and expected output.
+- Set the model-selection envelope for each delegated task: available model tiers and efforts, risk tolerance, budget or latency limit, and whether parallel work is allowed.
 - Integrate subagent findings into one business-aware plan or final answer.
 - Preserve DevBuddy's memory, review, approval, and definition-of-done rules.
 
@@ -31,6 +32,21 @@ Do not select `operations` automatically for generic build failures, test failur
 
 Avoid subagents when the task is narrow, the main agent already has enough context, or the routing overhead would exceed the benefit.
 
+## Model Selection Delegation
+
+When the task involves GPT-5.6 model or effort selection, read `references/gpt-5.6.md`.
+
+The orchestrator owns the envelope; the subagent owns the local choice within it.
+
+1. Verify the active surface exposes the relevant model and effort controls. If not, do not claim that the orchestrator or a subagent can select them.
+2. Give each subagent a model-selection contract: permitted tiers/efforts, task criticality, budget or latency constraint, and whether its work is independent enough for parallel execution.
+3. Allow the subagent to select the lowest sufficient tier and effort from that contract. It may request a higher tier or effort when the task's ambiguity, consequence of error, breadth, or verification burden justifies it.
+4. Keep Sol, `max`, and `ultra` as explicit escalation choices rather than defaults. Use Terra or normal effort for ordinary bounded work; use Luna for lightweight, high-volume, or low-consequence work when its capability is sufficient.
+5. Use `ultra` only for independent workstreams with a concrete synthesis step. Never use it to parallelize conflicting file edits, security-sensitive actions, or a task whose result needs one continuous chain of reasoning.
+6. The orchestrator remains accountable for approving escalations, resolving conflicts, integrating outputs, and performing final verification.
+
+Do not use tier names as a substitute for a clear task contract. Model selection never overrides user constraints, workspace policy, safety controls, or the instruction hierarchy.
+
 When a task names a stack or when role ownership is ambiguous, read `references/tech-stack-routing.md` and route by affected behavior. Use both `frontend` and `backend` for cross-stack work such as Next.js, Nuxt, SvelteKit, or Blazor when UI behavior and server/runtime behavior both affect correctness.
 
 ## Context Contract
@@ -42,6 +58,7 @@ When routing work, include only:
 - Current mode and mutation constraints.
 - Required output shape.
 - Any known business rules, assumptions, or unresolved questions.
+- The model-selection contract when model choice is delegated: permitted tiers/efforts, budget or latency limit, criticality, and whether escalation is allowed.
 
 Do not send broad repository context, long logs, or unrelated memory unless it is required for correctness.
 
@@ -54,6 +71,7 @@ Focused agents should return concise findings:
 - Files or areas inspected.
 - Findings with file references when applicable.
 - Risks, unknowns, and confidence.
+- Model tier and effort used or requested, with a one-line rationale; omit this when the active surface did not expose a choice.
 - Recommended next steps or tests.
 
 Do not paste full files or long command output. Summarize evidence and cite the smallest useful reference.
