@@ -15,6 +15,9 @@ OPENAI_YAML = SKILL / "agents" / "openai.yaml"
 SCAFFOLD_SCRIPT = SKILL / "scripts" / "devbuddy_scaffold.py"
 INSTALL_SCRIPT = ROOT / "scripts" / "install-local.sh"
 PACKAGE_SCRIPT = ROOT / "scripts" / "package-skill.sh"
+WINDOWS_INSTALL_SCRIPT = ROOT / "scripts" / "install-local.bat"
+WINDOWS_PACKAGE_SCRIPT = ROOT / "scripts" / "package-skill.bat"
+WINDOWS_VALIDATE_SCRIPT = ROOT / "scripts" / "validate-skill.bat"
 MEMORY_FILES = {
     "Context.md",
     "BusinessContext.md",
@@ -60,6 +63,12 @@ def main() -> int:
         fail("scripts/install-local.sh is missing")
     if not PACKAGE_SCRIPT.exists():
         fail("scripts/package-skill.sh is missing")
+    if not WINDOWS_INSTALL_SCRIPT.exists():
+        fail("scripts/install-local.bat is missing")
+    if not WINDOWS_PACKAGE_SCRIPT.exists():
+        fail("scripts/package-skill.bat is missing")
+    if not WINDOWS_VALIDATE_SCRIPT.exists():
+        fail("scripts/validate-skill.bat is missing")
 
     skill_text = SKILL_MD.read_text(encoding="utf-8")
     frontmatter = parse_frontmatter(skill_text)

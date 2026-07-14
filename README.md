@@ -12,6 +12,12 @@ Install or refresh the skill with the helper script:
 ./scripts/install-local.sh
 ```
 
+On Windows Command Prompt or PowerShell:
+
+```bat
+scripts\install-local.bat
+```
+
 Start a fresh Codex thread after installing so `$devbuddy` appears in the available skills list.
 
 ## Package
@@ -20,6 +26,12 @@ Create a distributable skill zip:
 
 ```bash
 ./scripts/package-skill.sh
+```
+
+On Windows Command Prompt or PowerShell:
+
+```bat
+scripts\package-skill.bat
 ```
 
 The archive is written to `dist/devbuddy-codex-skill.zip` and contains a top-level `devbuddy/` skill folder.
@@ -32,6 +44,12 @@ DevBuddy keeps project memory, ADRs, reports, and reusable tools outside this re
 python3 skill/scripts/devbuddy_scaffold.py --project-root /path/to/project
 ```
 
+On Windows, use the Python launcher and a Windows path:
+
+```bat
+py -3 skill\scripts\devbuddy_scaffold.py --project-root C:\path\to\project
+```
+
 The script respects `devbuddy.config.md` when present, supports Obsidian vault mode, and otherwise creates `.devbuddy/` under the target project.
 
 ## Validate
@@ -40,6 +58,12 @@ Run the repository-local validator:
 
 ```bash
 ./scripts/validate-skill.sh
+```
+
+On Windows Command Prompt or PowerShell:
+
+```bat
+scripts\validate-skill.bat
 ```
 
 It validates the required `SKILL.md` frontmatter, skill name, description, Codex metadata, expected Plan Mode guidance, and absence of runtime memory files from `skill/`.
